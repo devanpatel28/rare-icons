@@ -1,26 +1,328 @@
 @import "tailwindcss";
+@import "@heroui/styles";
+@import "@heroui/styles/components/search-field.css";
+@import "@heroui/styles/components/scroll-shadow.css";
+@import "@heroui/styles/components/tooltip.css";
+@import "@heroui/styles/components/toast.css";
+@import "@heroui/styles/components/drawer.css";
+@import "@heroui/styles/components/color-picker.css";
+@import "@heroui/styles/components/color-swatch-picker.css";
+@import "@heroui/styles/components/color-swatch.css";
+@import "@heroui/styles/components/color-area.css";
+@import "@heroui/styles/components/color-slider.css";
+@import "@heroui/styles/components/label.css";
+@import "lenis/dist/lenis.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --text-2xs: 0.625rem;
 }
 
 @theme inline {
+  --text-2xs: var(--text-2xs);
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-secondary: var(--secondary);
+  --font-inter: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Hero Ambient Floating Icons Keyframes */
+@keyframes hero-float-a {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(4deg);
   }
 }
 
-body {
+@keyframes hero-float-b {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(-5deg);
+  }
+}
+
+@keyframes hero-float-c {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(-3deg);
+  }
+}
+
+@keyframes hero-float-d {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) scale(1.05) rotate(6deg);
+  }
+}
+
+@keyframes hero-float-e {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translateY(15px) scale(0.95) rotate(-6deg);
+  }
+}
+
+.animate-hero-float-a {
+  animation: hero-float-a 6.5s ease-in-out infinite;
+}
+
+.animate-hero-float-b {
+  animation: hero-float-b 8s ease-in-out infinite;
+}
+
+.animate-hero-float-c {
+  animation: hero-float-c 7.2s ease-in-out infinite;
+}
+
+.animate-hero-float-d {
+  animation: hero-float-d 9s ease-in-out infinite;
+}
+
+.animate-hero-float-e {
+  animation: hero-float-e 8.5s ease-in-out infinite;
+}
+
+/* Prevent screen width blink / layout shift between scrollable and non-scrollable content */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Scrollable areas that use native scroll should opt-out of Lenis */
+.native-scroll {
+  overscroll-behavior: contain;
+}
+
+/* Custom small scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
   background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--background);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar,
+.scrollbar-none,
+.scroll-shadow--hide-scrollbar,
+[data-hide-scroll-bar="true"],
+[data-hide-scrollbar="true"] {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar,
+.scroll-shadow--hide-scrollbar::-webkit-scrollbar,
+[data-hide-scroll-bar="true"]::-webkit-scrollbar,
+[data-hide-scrollbar="true"]::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.toast,
+.toast-region,
+.toast__content,
+.toast__indicator,
+.toast__title,
+.toast__description,
+.toast__action,
+.toast__close-button {
+  background: var(--foreground) !important;
+  color: var(--background) !important;
+}
+
+.tooltip,
+.tooltip__trigger,
+.tooltip__trigger:hover,
+.tooltip__trigger:focus,
+.tooltip__trigger:active,
+.tooltip__arrow,
+.tooltip__content,
+.tooltip__content:hover,
+.tooltip__content:focus,
+.tooltip__content:active{
+  background: var(--foreground) !important;
+  color: var(--background) !important;
+  padding: 0.25rem !important;
+  
+  & [data-slot="overlay-arrow"] {
+    fill: var(--foreground) !important;
+  
+    stroke: none !important;
+  }
+}
+
+/* Documentation Content Styling */
+.docs-content {
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.docs-content h1 {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--foreground);
+  margin-bottom: 0.75rem;
+}
+
+.docs-content h2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.docs-content h3 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.docs-content p {
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.docs-content p strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.docs-content a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.docs-content a:hover {
+  text-decoration: underline;
+}
+
+.docs-content code:not(pre code) {
+  padding: 0.15rem 0.375rem;
+  border-radius: 0.375rem;
+  font-family: monospace;
+  font-size: 0.75rem;
+  background-color: var(--background-secondary);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.docs-content ul {
+  list-style-type: disc;
+  list-style-position: inside;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  padding-left: 0.25rem;
+}
+
+.docs-content ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  padding-left: 0.25rem;
+}
+
+.docs-content li strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.docs-content table {
+  width: 100%;
+  font-size: 0.75rem;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: var(--surface);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.docs-content th {
+  padding: 0.625rem 1rem;
+  font-weight: 600;
+  color: var(--muted);
+  background-color: var(--background-secondary);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.65rem;
+}
+
+.docs-content td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.docs-content tr:last-child td {
+  border-bottom: none;
 }
